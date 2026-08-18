@@ -17,7 +17,7 @@ gallery:
   - src: '/img/projects/handheld-armor-detection/bom.png'
     caption: 'BOM 表：物料与元器件清单'
   - src: '/img/projects/handheld-armor-detection/code.png'
-    caption: '嵌入式代码仓库（开源方案二次开发）'
+    caption: '嵌入式代码仓库（开源方案二次开发）· <a href="https://github.com/dspajio/ArmorCodeV2" target="_blank" rel="noopener">github.com/dspajio/ArmorCodeV2</a>'
 videos:
   - type: file
     src: '/videos/handheld-armor-demo.mp4'

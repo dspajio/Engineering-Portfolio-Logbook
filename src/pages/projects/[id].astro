@@ -93,7 +93,11 @@ const pendingCover = !data.cover;
               ) : (
                 <figure>
                   <img src={g.src} alt={g.caption ?? data.title} loading="lazy" />
-                  {g.caption && <figcaption>{g.caption}</figcaption>}
+                  {g.caption && (g.caption.includes('<a ') ? (
+                    <figcaption set:html={g.caption} />
+                  ) : (
+                    <figcaption>{g.caption}</figcaption>
+                  ))}
                 </figure>
               )
             )}
