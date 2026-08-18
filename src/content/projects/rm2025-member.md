@@ -9,11 +9,21 @@ date: '2024-10-01'
 period: '2024.10 – 2025.03'
 role: '机械 / 电控成员'
 summary: '从队伍新人做起：负责既有步兵机器人的拆装维护、赛季规则适配、底盘电流/功率监测，并解决现场的遥控信号遮蔽问题。'
-cover: ''
-coverCaption: ''
-gallery: []
+cover: '/img/projects/rm2025-member/disassembly.jpg'
+coverCaption: '整车拆解维护，借此理解整机结构与走线布局'
+gallery:
+  - src: '/img/projects/rm2025-member/wiring.jpg'
+    caption: '拆卸维护时记录线序，确保重装后不出接线错误'
+  - src: '/img/projects/rm2025-member/ina226-powermeter.png'
+    caption: '将 INA226 封装为 module 层 PowerMeter，与其他三人共同按新规则做电控更改'
+  - src: '/img/projects/rm2025-member/award.jpg'
+    caption: 'RMUL 1v1 步兵三等奖'
+videos:
+  - type: file
+    src: '/videos/rm2025-final-test.mp4'
+    caption: '整车比赛前最后测试'
 results:
-  - 'RMUL 1v1 步兵三等奖（正式名称以证书为准，亦有写法为步兵对抗赛三等奖）'
+  - 'RMUL 1v1 步兵三等奖'
 tags:
   - RoboMaster
   - STM32
@@ -30,7 +40,7 @@ tags:
 ## 我的工作
 
 - 负责既有步兵机器人的拆装维护与赛季规则适配；
-- 新增 **INA226 模块**，实现底盘电流与功率检测；
+- 将 **INA226** 封装为 module 层 PowerMeter，实现底盘电流与功率检测，与其他三人共同按新规则进行电控更改；
 - 现场遇到遥控信号异常 —— 判断为金属结构对无线信号的遮蔽，通过**调整接收器安装位置**改善，并完成现场验证。
 
 ## 核心收获
@@ -39,10 +49,3 @@ tags:
 - 从维护工作里建立起对整台机器人——底盘、云台、供弹、电控——的系统认知。
 
 > 不用"独立完成机器人研发"来描述这个赛季。这个赛季的价值是打基础 + 一次漂亮的现场排障。
-
-## 待补充素材（[img-placeholder](/)）
-
-- [ ] 整车照片 / 拆装过程
-- [ ] INA226 台账或电流波形截图
-- [ ] 接收器位置调整说明图（示意即可）
-- [ ] 奖状（如为准，作证明展示）
