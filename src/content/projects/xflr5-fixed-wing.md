@@ -15,7 +15,7 @@ gallery:
   - src: '/img/projects/xflr5-fixed-wing/kt-glider.jpg'
     caption: '实际飞固定翼，采用 KT 板"纸飞机"'
   - src: '/img/projects/xflr5-fixed-wing/aerofly-practice.png'
-    caption: '一直在用 Aerofly RC8 练习飞行固定翼'
+    caption: '初步使用 SolidWorks 绘制翼型，因时间原因暂时搁置'
 results: []
 tags:
   - XFLR5
