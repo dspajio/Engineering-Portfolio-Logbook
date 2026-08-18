@@ -9,9 +9,27 @@ date: '2025-04-01'
 period: '2025.04 – 2026.03'
 role: '副队长 · 步兵负责人'
 summary: '作为副队长与步兵负责人，负责新赛季步兵机械方案（含全向轮底盘重新设计）、STM32 电控开发与三台机器人系统联调。'
-cover: ''
-coverCaption: ''
-gallery: []
+cover: '/img/projects/rm2026-infantry/cover.png'
+coverCaption: '新赛季全向轮步兵——因经费原因未制造，处于半成品状态，各模块以打印件形式组装测试'
+gallery:
+  - src: '/img/projects/rm2026-infantry/team-docs.png'
+    caption: '为团队写技术文档、整理资料与报销、统计消耗资源，也有步兵建模和代码'
+  - src: '/img/projects/rm2026-infantry/3v3-award.jpg'
+    caption: '3v3 对抗赛三等奖'
+  - src: '/img/projects/rm2026-infantry/infantry-award.jpg'
+    caption: '步兵对抗赛三等奖'
+  - src: '/img/projects/rm2026-infantry/engineering-award.jpg'
+    caption: '工程挑战赛优秀奖'
+videos:
+  - type: file
+    src: '/videos/rm2026-3car-test.mp4'
+    caption: '熬夜联调三车通过完整形态评测'
+  - type: file
+    src: '/videos/rm2026-vision-aim.mp4'
+    caption: '熬夜联调和视觉对接，调通自瞄'
+  - type: file
+    src: '/videos/rm2026-engineer-can.mp4'
+    caption: '熬夜联调工程完整形态评测——因 CAN 线硬件问题机械臂动不了，帮忙调了工程的控制，最后定位到是 CAN 线问题'
 results:
   - '3v3 对抗赛三等奖'
   - '步兵对抗赛三等奖'
@@ -58,11 +76,3 @@ tags:
 - 一次"一个人同时当机械设计、嵌入式开发和系统联调"的多线程赛季；
 - 明确意识到 **复用既有框架、增量改进** 的价值，以及文档对环境传承的重要性；
 - 视觉 / 下位机的两层通信解算是这次最需要系统思维的部分。
-
-## 待补充素材（[img-placeholder](/)）
-
-- [ ] 底盘 / 整车 CAD 截图
-- [ ] 云台结构图
-- [ ] 电控框架 / CMake 工程截图
-- [ ] 联调 / 比赛现场照片
-- [ ] 奖状（作为成果证明，不作页面主体）

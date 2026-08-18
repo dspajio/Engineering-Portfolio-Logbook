@@ -72,5 +72,5 @@ export const contact = {
   github: 'https://github.com/dspajio',         // TODO: 填你的 GitHub 链接，如 https://github.com/username
   location: '中国 · 天津',
   links: [] as SocialLink[], // TODO: 如需放其他链接（如 X/WeChat 备注），在此加入
-  note: '公开网页不建议直接发布手机号/微信号；建议只留邮箱 + GitHub，微信可在简历 PDF 中单独提供。',
+  note: '',
 };
