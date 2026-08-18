@@ -1,0 +1,19 @@
+{
+  "name": "dengt-engineering-portfolio",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "邓桐 — 个人工程档案 / Engineering Portfolio",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^5.16.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^5.9.3"
+  }
+}

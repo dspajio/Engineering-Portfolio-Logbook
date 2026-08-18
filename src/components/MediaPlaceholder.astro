@@ -1,0 +1,26 @@
+---
+/**
+ * 图片占位组件。
+ * 当项目尚未提供真实工程图片时，用它显示一个"蓝图画布"式占位框，
+ * 并在代码/页面中明确标注待替换素材位置。
+ *
+ * 等价于下边这段 HTML 输出，替换真实 `<img src="/img/projects/xxx/…">` 后删除此组件即可。
+ */
+interface Props {
+  /** 占位说明，例如 "机翼 CAD 渲染" */
+  label?: string;
+  /** 额外标注，例如示意长宽 */
+  note?: string;
+}
+const { label = '待补充素材', note = 'PLACEHOLDER' } = Astro.props;
+---
+
+<div class="media-ph" role="img" aria-label={`图片占位：${label}`}>
+  <strong>{label}</strong>
+  <span>← 在此替换为你的工程图片 [img-placeholder]</span>
+  <span class="note">{note}</span>
+</div>
+
+<style>
+  .note { opacity: 0.7; font-size: 0.72rem; }
+</style>

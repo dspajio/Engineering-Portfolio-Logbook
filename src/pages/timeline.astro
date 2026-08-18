@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { timeline } from '../data/timeline';
+---
+
+<BaseLayout title="成长时间线" description="邓桐 · 从大一到现在的工程能力成长轨迹。">
+  <section class="hero hero--sub">
+    <div class="container">
+      <p class="kicker">Engineering Journey</p>
+      <h1>成长时间线</h1>
+      <p class="sub">Timeline</p>
+      <p class="tagline">从大一接触 CAD，到带队负责一个赛季的机器人 —— 能力是一条慢慢叠出来的曲线。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="timeline">
+        {timeline.map((t) => (
+          <div class="tl-item">
+            <div class="tl-date">{t.date}</div>
+            <h3>{t.phase}</h3>
+            {t.en && <div class="tl-en">{t.en}</div>}
+            <p>{t.zh}</p>
+            {t.tags && (
+              <div class="tag-list">
+                {t.tags.map((tag) => <span class="badge">{tag}</span>)}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div class="muted" style="max-width:60ch;font-size:0.9rem;margin-top:var(--g-3)">
+        说明：此页是能力成长轨迹，不是"成果罗列"。有些节点没有比赛名次，但代表了具体的工程能力增长。
+      </div>
+    </div>
+  </section>
+</BaseLayout>

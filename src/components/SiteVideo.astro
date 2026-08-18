@@ -1,0 +1,57 @@
+---
+/**
+ * 演示视频组件。
+ * 支持三种视频来源：
+ *   1. bilibili —— 嵌入 B 站视频页（推荐大视频；加载由 B 站承担，网站保持轻快）
+ *   2. file     —— 直传 mp4（适合小演示 <10MB；Cloudflare Pages 免费档单文件限 25MB）
+ *   3. placeholder —— 占位框，等上传后替换
+ *
+ * frontmatter 用法见 README.md「视频」一节。
+ */
+interface Props {
+  type: 'bilibili' | 'file' | 'placeholder';
+  src?: string;          // file 类型：mp4 路径
+  bvid?: string;         // bilibili 类型：BV 号
+  page?: number;         // bilibili 分P（可选）
+  caption?: string;
+  cover?: string;        // 视频封面图（可选）
+}
+const { type, src, bvid, page = 1, caption, cover } = Astro.props;
+
+// B 站官方嵌入 URL 格式：//player.bilibili.com/player.html?bvid=BV…&page=1&high_quality=1
+const biliSrc = bvid
+  ? `//player.bilibili.com/player.html?bvid=${bvid}&page=${page}&high_quality=1&danmaku=0`
+  : '';
+---
+
+{type === 'bilibili' && bvid ? (
+  <div class="video-box">
+    <iframe
+      class="video-frame"
+      src={biliSrc}
+      scrolling="no"
+      border="0"
+      frameborder="no"
+      framespacing="0"
+      allowfullscreen="true"
+      loading="lazy"
+      title={caption ?? 'B 站演示视频'}
+    ></iframe>
+    {caption && <div class="video-caption">{caption}</div>}
+  </div>
+) : type === 'file' && src ? (
+  <div class="video-box">
+    {cover && <img src={cover} alt={caption ?? '视频封面'} class="video-cover" loading="lazy" />}
+    <video class="video-frame" controls preload="metadata" playsinline>
+      <source src={src} type="video/mp4" />
+      你的浏览器不支持 HTML5 视频，请升级浏览器或<a href={src}>点此下载/另开</a>。
+    </video>
+    {caption && <div class="video-caption">{caption}</div>}
+  </div>
+) : (
+  <div class="media-ph video-ph" role="img" aria-label="视频占位">
+    <strong>{caption ?? '演示视频'}</strong>
+    <span>VIDEO PLACEHOLDER · 在 frontmatter 的 videos 里填入 B 站 BV 号或 mp4 路径</span>
+    <span style="opacity:.7;font-size:.72rem">示例 bvid: BV1xxxxxxxxx 或 file: /videos/demo.mp4</span>
+  </div>
+)}

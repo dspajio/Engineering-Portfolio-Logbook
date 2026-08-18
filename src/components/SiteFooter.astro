@@ -1,0 +1,16 @@
+---
+import { profile } from '../data/profile';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div>
+      <strong>{profile.name}</strong> · 个人工程档案
+      <span class="muted">/ Engineering Portfolio</span>
+    </div>
+    <div>
+      © {year} {profile.name} · Built with Astro · 内容与图片均为用户真实工程资料
+    </div>
+  </div>
+</footer>

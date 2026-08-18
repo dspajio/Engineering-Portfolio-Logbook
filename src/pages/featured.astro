@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+// Featured = level 在 featured/core 中，或标记了 featured:true，且属于真正"展示级"
+const featured = projects.filter((p) => p.data.featured === true);
+const core = projects.filter((p) => !p.data.featured && p.data.level === 'core');
+// 其余精选页补充：practice 中最有代表性的也放进来作对比
+const practice = projects
+  .filter((p) => p.data.level === 'practice' && p.data.featured)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const learning = projects.filter((p) => p.data.level === 'learning');
+---
+
+<BaseLayout
+  title="精选项目"
+  description="邓桐 · 机械工程精选项目：CUADC 机翼静载、RoboMaster 步兵、自适应悬挂靶车等。"
+>
+  <section class="hero hero--sub">
+    <div class="container">
+      <p class="kicker">Selected Work</p>
+      <h1>精选项目</h1>
+      <p class="sub">Featured Projects</p>
+      <p class="tagline">挑几个真正能讲清楚"为什么做、怎么做、做出来如何"的核心项目。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Core / Featured</span>
+        <h2>核心项目</h2>
+        <p class="desc">规模最大、最完整、最能展示能力的项目，配有详细项目页。</p>
+      </div>
+
+      <div class="grid-projects">
+        {featured.map((p) => (
+          <ProjectCard project={p} span="span-4" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {learning.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="sec-head">
+          <span class="en">Learning & Experiments</span>
+          <h2>学习 / 实验</h2>
+          <p class="desc">仍在学习或入门阶段，如实标注，不包装成"精通"。</p>
+        </div>
+        <div class="grid-projects">
+          {learning.map((p) => <ProjectCard project={p} span="span-4" showSummary={false} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container">
+      <p><a class="btn ghost" href="/archive/">查看完整工程档案 →</a> <a class="btn ghost" href="/timeline/">成长时间线 →</a></p>
+    </div>
+  </section>
+</BaseLayout>

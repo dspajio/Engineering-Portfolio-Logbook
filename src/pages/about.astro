@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { profile, skillGroups, contact } from '../data/profile';
+
+const hasEmail = Boolean(contact.email);
+const hasGithub = Boolean(contact.github);
+---
+
+<BaseLayout title="能力与联系" description="邓桐 · 技能版图、教育背景与联系方式。">
+  <section class="hero hero--sub">
+    <div class="container">
+      <p class="kicker">About & Contact</p>
+      <h1>能力与联系</h1>
+      <p class="sub">Skills · Education · Contact</p>
+    </div>
+  </section>
+
+  <!-- 教育 / 身份 -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Profile</span>
+        <h2>基本档案</h2>
+      </div>
+
+      <div class="about-background">
+        <div class="aside">
+          <ul class="detail-list">
+            <li><b>姓名</b>{profile.name}</li>
+            <li><b>学校</b>{profile.education.school}</li>
+            <li><b>专业</b>{profile.education.major}</li>
+            <li><b>学历</b>{profile.education.degree}</li>
+            <li><b>届别</b>{profile.education.classYear}</li>
+            <li><b>地点</b>{contact.location}</li>
+          </ul>
+        </div>
+        <div class="desc">
+          <p>{profile.intro[0]}</p>
+          <p>{profile.intro[1]}</p>
+          <p>{profile.intro[2]}</p>
+          <div class="tag-list">
+            {['机械设计', '结构设计', '机器人机械', '制造工程', '航空制造'].map((t) => (
+              <span class="badge badge--navy">{t}</span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 技能 -->
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Skills</span>
+        <h2>能力版图</h2>
+        <p class="desc">如实标注熟练度：主力项 / 用过项 / 学习项。</p>
+      </div>
+
+      <div class="skills-grid">
+        {skillGroups.map((g) => (
+          <div class="skill-card">
+            <h3>{g.group}<span>{g.groupEn}</span></h3>
+            <ul>
+              {g.skills.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 联系 -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Contact</span>
+        <h2>联系方式</h2>
+      </div>
+
+      <ul class="detail-list" style="max-width:560px">
+        {hasEmail ? (
+          <li><b>邮箱</b><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
+        ) : (
+          <li><b>邮箱</b><span class="muted">待补充 —— 在 src/data/profile.ts 的 contact.email 填写</span></li>
+        )}
+        {hasGithub ? (
+          <li><b>GitHub</b><a href={contact.github} target="_blank" rel="noopener">{contact.github}</a></li>
+        ) : (
+          <li><b>GitHub</b><span class="muted">待补充 —— 在 src/data/profile.ts 的 contact.github 填写</span></li>
+        )}
+        {contact.links.map((l) => (
+          <li><b>{l.label}</b><a href={l.href} target="_blank" rel="noopener">{l.labelEn}{l.note ? ` · ${l.note}` : ''}</a></li>
+        ))}
+      </ul>
+
+      <p class="muted" style="max-width:60ch;font-size:0.9rem">
+        提示：公开网页不建议直接发布手机号 / 微信号（会被爬虫抓取到，可能收到骚扰）。建议只留邮箱 + GitHub，微信可在沟通过程中或简历 PDF 中单独提供。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

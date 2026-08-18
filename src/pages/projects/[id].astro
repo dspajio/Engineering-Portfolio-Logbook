@@ -1,0 +1,148 @@
+---
+import { getCollection, render } from 'astro:content';
+import { LEVELS, CATEGORIES } from '../../data/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MediaPlaceholder from '../../components/MediaPlaceholder.astro';
+import SiteVideo from '../../components/SiteVideo.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((p) => ({
+    params: { id: p.id.replace(/\.md$/, '') },
+    props: { project: p },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { data } = project;
+
+const levelInfo = LEVELS[data.level];
+const categoryInfo = CATEGORIES.find((c) => c.key === data.category);
+
+const pendingCover = !data.cover;
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <!-- 头部：标题 + 元信息 + 主视觉 -->
+  <section class="detail-header">
+    <div class="container">
+      <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap">
+        <span class="badge badge--navy">{levelInfo.zh}</span>
+        {categoryInfo && <span class="badge">{categoryInfo.en}</span>}
+        {data.status === 'award' && <span class="badge" style="border-color:var(--ok);color:var(--ok)">获奖 / 获证</span>}
+      </div>
+
+      <h1 style="margin-top:0.8rem;margin-bottom:0.2rem">{data.title}</h1>
+      {data.titleEn && <div class="muted" style="font-size:0.95rem">{data.titleEn}</div>}
+
+      <div class="detail-meta">
+        <span><b>时间</b>{data.period}</span>
+        <span><b>角色</b>{data.role}</span>
+        <span><b>层级</b>{levelInfo.zh}</span>
+      </div>
+
+      <div class="detail-meta">
+        {data.tags.map((t) => <span class="badge">{t}</span>)}
+      </div>
+
+      <div class="mt-2">
+        {pendingCover ? (
+          <MediaPlaceholder label={`${data.title} · 主视觉`} note="COVER · 此区域将替换为你的主图（实物 / CAD / ANSYS / PCB）" />
+        ) : (
+          <img src={data.cover} alt={data.title} style="max-height:460px;width:100%;object-fit:cover" loading="lazy" />
+        )}
+        {data.coverCaption && <div class="muted" style="font-size:0.8rem;margin-top:0.4rem">{data.coverCaption}</div>}
+      </div>
+    </div>
+  </section>
+
+  <!-- 正文 -->
+  <div class="container">
+    <article class="prose">
+      <Content />
+    </article>
+
+    <!-- 成果（若 frontmatter 有） -->
+    {
+      data.results.length > 0 && (
+        <section style="max-width:760px;margin:0 auto">
+          <div class="sec-head" style="margin-bottom:1rem">
+            <span class="en">Outcomes</span>
+            <h2>项目成果</h2>
+          </div>
+          <ul class="detail-list" style="border-color:var(--line)">
+            {data.results.map((r) => <li style="border-bottom-color:var(--line)">{r}</li>)}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- 图库 -->
+    {
+      data.gallery.length > 0 && (
+        <section style="max-width:760px;margin:0 auto">
+          <div class="sec-head" style="margin-bottom:1rem">
+            <span class="en">Gallery</span>
+            <h2>图片素材</h2>
+          </div>
+          <div class="gallery">
+            {data.gallery.map((g) =>
+              g.src.startsWith('/PLACEHOLDER') ? (
+                <MediaPlaceholder label={g.caption ?? '待补充素材'} note="GALLERY · 占位" />
+              ) : (
+                <figure>
+                  <img src={g.src} alt={g.caption ?? data.title} loading="lazy" />
+                  {g.caption && <figcaption>{g.caption}</figcaption>}
+                </figure>
+              )
+            )}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- 演示视频（若有） -->
+    {
+      data.videos.length > 0 && (
+        <section style="max-width:760px;margin:0 auto">
+          <div class="sec-head" style="margin-bottom:1rem">
+            <span class="en">Demos</span>
+            <h2>演示视频</h2>
+            <p class="desc" style="font-size:0.9rem;margin:0">运动中才能看到的成果：装配 / 运动学 / 实测 / 联调。</p>
+          </div>
+          <div class="videos">
+            {data.videos.map((v) => (
+              <SiteVideo
+                type={v.type}
+                src={v.src}
+                bvid={v.bvid}
+                page={v.page}
+                caption={v.caption}
+                cover={v.cover}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- 素材待补充清单（代码级提示 + 用户可见标记） -->
+    <aside style="max-width:760px;margin:0 auto" class="mt-4">
+      <div style="border:1px dashed var(--accent);background:var(--accent-soft);border-radius:var(--rad);padding:1rem 1.2rem;font-size:0.88rem;color:var(--ink-2)">
+        <strong style="color:var(--accent)">素材待补充清单</strong>
+        <div style="margin-top:0.4rem">
+          当前为占位状态。请将真实工程图片放到 <code>public/img/projects/{project.id.replace(/\.md$/, '')}/</code> 目录，
+          然后在 <code>src/content/projects/{project.id}</code> 的 frontmatter 里填写 <code>cover</code> 与 <code>gallery</code> 路径，
+          本占位框即会自动消失。
+        </div>
+      </div>
+    </aside>
+
+    <!-- 导航 -->
+    <nav style="display:flex;gap:1rem;max-width:760px;margin:var(--g-4) auto var(--g-5);justify-content:space-between;flex-wrap:wrap">
+      <a class="btn ghost" href="/featured/">← 精选项目</a>
+      <a class="btn ghost" href="/archive/">工程档案 →</a>
+    </nav>
+  </div>
+</BaseLayout>

@@ -1,0 +1,22 @@
+# deps
+node_modules/
+
+# build
+dist/
+.output/
+
+# astro
+.astro/
+*.log
+
+# local
+.dev/
+.env
+.env.*
+
+# system
+.DS_Store
+Thumbs.db
+
+# claude local settings
+.claude/settings.local.json

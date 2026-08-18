@@ -1,0 +1,141 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
+import MediaPlaceholder from '../components/MediaPlaceholder.astro';
+import { profile, skillGroups } from '../data/profile';
+import { timeline } from '../data/timeline';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+const featured = projects.filter((p) => p.data.featured).slice(0, 4);
+const practice = projects.filter((p) => p.data.level === 'practice');
+const coreCount = projects.length;
+const awardCount = projects.filter((p) => p.data.status === 'award').length;
+const years = '2023 — 2026';
+---
+
+<BaseLayout
+  title="工程档案"
+  description="天津理工大学机械工程 · 邓桐的个人工程档案：机械设计 / 机器人 / 机电一体化的项目与成长。"
+>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="container">
+      <p class="kicker">Engineering Portfolio · Logbook</p>
+      <h1>{profile.name}<br /><span class="muted" style="font-weight:500">机械工程 · {profile.title}</span></h1>
+      <p class="sub">Mechanical Design / Robotics / Manufacturing</p>
+      <p class="tagline">{profile.education.school} · {profile.education.major} · {profile.education.classYear}</p>
+
+      <div class="intro">
+        <p>
+          以<strong>机械设计 / 结构设计</strong>为主，同时具备<strong>电控（STM32）、嵌入式、PCB、CAE 仿真与系统联调</strong>能力的队伍型工程师。
+          长期参加 <strong>RoboMaster</strong>，做过 <strong>CUADC</strong> 无人机结构项目。
+          这里是我的工程档案 —— 精选项目、完整项目、成长时间线。
+        </p>
+        <p class="mb-0" style="color:var(--ink-2)">
+          面向：机械设计 / 结构设计 / 机器人机械 / 制造工程 / 航空制造方向 · 2027 届秋招 / 实习。
+        </p>
+      </div>
+
+      <div class="cta">
+        <a class="btn" href="/featured/">查看精选项目 →</a>
+        <a class="btn ghost" href="/about/">能力与联系</a>
+      </div>
+
+      <div class="stats">
+        <div class="stat"><strong>{years}</strong><span>工程实践跨度</span></div>
+        <div class="stat"><strong>{coreCount}</strong><span>项目 / 实践条目</span></div>
+        <div class="stat"><strong>{awardCount}</strong><span>获证 / 获奖项目</span></div>
+        <div class="stat"><strong>RoboMaster · CUADC</strong><span>两大竞赛主线</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 精选项目 ============ -->
+  <section class="section" id="featured">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Featured Projects</span>
+        <h2>精选项目</h2>
+        <p class="desc">最能代表"我是谁、在哪里做过什么"的四项核心工程。点击进入完整记录。</p>
+      </div>
+
+      <div class="grid-projects">
+        {featured.map((p) => (
+          <ProjectCard project={p} span="span-6" />
+        ))}
+      </div>
+
+      <p class="mt-3">
+        <a class="btn ghost" href="/featured/">全部精选项目 →</a>
+        <a class="btn ghost" href="/archive/">完整工程档案 →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 时间线预览 ============ -->
+  <section class="section" id="journey">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Engineering Journey</span>
+        <h2>成长轨迹</h2>
+        <p class="desc">从大一到现在，能力是怎么长起来的。</p>
+      </div>
+
+      <div class="timeline">
+        {timeline.slice(0, 4).map((t) => (
+          <div class="tl-item">
+            <div class="tl-date">{t.date}</div>
+            <h3>{t.phase}</h3>
+            {t.en && <div class="tl-en">{t.en}</div>}
+            <p>{t.zh}</p>
+          </div>
+        ))}
+      </div>
+      <a class="btn ghost" href="/timeline/">完整时间线 →</a>
+    </div>
+  </section>
+
+  <!-- ============ 技能概览 ============ -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Skills</span>
+        <h2>能力版图</h2>
+        <p class="desc">机械为主线，电控 / 嵌入式为第二曲线，仿真与制造能力补齐。</p>
+      </div>
+
+      <div class="skills-grid">
+        {skillGroups.map((g) => (
+          <div class="skill-card">
+            <h3>{g.group}<span>{g.groupEn}</span></h3>
+            <ul>
+              {g.skills.map((s) => <li>{s}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <p class="mt-3"><a class="btn ghost" href="/about/">完整能力与联系方式 →</a></p>
+    </div>
+  </section>
+
+  <!-- ============ 个人工程实践（诚实呈现） ============ -->
+  <section class="section" id="practice">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Personal Engineering Practice</span>
+        <h2>个人工程实践</h2>
+        <p class="desc">没有比赛光环、但有完整"提出 → 实现 → 验证"过程的动手项目。含一个诚实展示失败案例的自适应悬挂靶车。</p>
+      </div>
+
+      <div class="grid-projects">
+        {[...practice]
+          .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+          .map((p) => <ProjectCard project={p} span="span-4" showSummary={false} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

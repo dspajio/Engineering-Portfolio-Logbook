@@ -1,0 +1,44 @@
+---
+import { profile } from '../data/profile';
+
+const nav = [
+  { href: '/', label: '首页', labelEn: 'Home' },
+  { href: '/featured/', label: '精选项目', labelEn: 'Featured' },
+  { href: '/archive/', label: '工程档案', labelEn: 'Archive' },
+  { href: '/timeline/', label: '时间线', labelEn: 'Timeline' },
+  { href: '/about/', label: '能力与联系', labelEn: 'About' },
+];
+---
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="brand">
+      {profile.name}
+      <span class="en">{profile.nameEn} · {profile.title}</span>
+    </a>
+
+    <nav class="site-nav">
+      {nav.map((item) => <a href={item.href} {...(item.href === Astro.url.pathname ? { 'aria-current': 'page' } : {})}>{item.label}</a>)}
+    </nav>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="打开菜单" aria-expanded="false">☰</button>
+  </div>
+
+  <div class="mobile-nav" id="mobile-nav">
+    {nav.map((item) => <a href={item.href}>{item.label}<span class="muted" style="margin-left:0.4rem;font-size:0.8rem">{item.labelEn}</span></a>)}
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const panel = document.getElementById('mobile-nav');
+  toggle?.addEventListener('click', () => {
+    const open = panel.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+</script>
+
+<style>
+  .brand .en { display: inline; }
+  .muted { color: var(--ink-3); }
+</style>

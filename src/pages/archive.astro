@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { CATEGORIES, LEVELS, ALL_TAGS } from '../data/site';
+import { slug } from '../lib/slug';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+const groupOrder = ['featured', 'core', 'project', 'practice', 'learning'];
+function byGroup(a: string, b: string) {
+  return groupOrder.indexOf(a) - groupOrder.indexOf(b);
+}
+
+// 分组：一个项目按其 level 归入对应组
+const groups = projects
+  .reduce<{ level: string; items: typeof projects }[]>((acc, p) => {
+    const g = acc.find((x) => x.level === p.data.level);
+    if (g) g.items.push(p);
+    else acc.push({ level: p.data.level, items: [p] });
+    return acc;
+  }, [])
+  .sort((a, b) => byGroup(a.level, b.level));
+---
+
+<BaseLayout
+  title="工程档案"
+  description="邓桐 · 完整工程档案：包含所有项目，按层级分类。"
+>
+  <section class="hero hero--sub">
+    <div class="container">
+      <p class="kicker">Archive</p>
+      <h1>工程档案</h1>
+      <p class="sub">Project Archive</p>
+      <p class="tagline">全部项目的完整清单 —— 不都是"比赛"项目，但都有真实的工程过程。</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">By Level</span>
+        <h2>按项目层级</h2>
+        <p class="desc">精选 &gt; 工程档案 &gt; 个人实践 &gt; 学习。视觉权重递减，如实分层。</p>
+      </div>
+
+      {groups.map((g) => {
+        const meta = LEVELS[g.level];
+        return (
+          <div style="margin-top:1.5rem">
+            <div style="display:flex;align-items:baseline;gap:0.8rem;flex-wrap:wrap">
+              <h3 style="margin:0">{meta.zh}</h3>
+              <span class="muted" style="font-size:0.82rem;text-transform:uppercase;letter-spacing:0.1em">{meta.en}</span>
+              <span class="muted" style="font-size:0.8rem">{meta.hint}</span>
+            </div>
+
+            <div class="mt-2">
+              {g.items.map((p) => (
+                <div class="archive-row">
+                  <div>
+                    <a href={`/projects/${slug(p.id)}/`}>{p.data.title}</a>
+                    <div class="muted" style="font-size:0.85rem;margin-top:0.1rem">
+                      {p.data.category} · {p.data.role}
+                    </div>
+                  </div>
+                  <div class="meta">
+                    <div>{p.data.period}</div>
+                    <div>{LEVELS[p.data.level].zh}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="sec-head">
+        <span class="en">Categories & Tags</span>
+        <h2>分类与标签</h2>
+      </div>
+      <div class="tag-list">
+        {[...CATEGORIES.map((c) => c.en), ...ALL_TAGS].map((t) => (
+          <span class="badge">{t}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

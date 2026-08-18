@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { LEVELS } from '../data/site';
+import { slug } from '../lib/slug';
+import MediaPlaceholder from './MediaPlaceholder.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  span?: 'span-12' | 'span-8' | 'span-7' | 'span-5' | 'span-6' | 'span-4';
+  showSummary?: boolean;
+}
+const {
+  project,
+  span = 'span-6',
+  showSummary = true,
+} = Astro.props;
+
+const { data } = project;
+const levelInfo = LEVELS[data.level];
+const hasCover = Boolean(data.cover);
+const coverUrl = hasCover ? data.cover : '';
+---
+
+<a
+  href={`/projects/${slug(project.id)}/`}
+  class={`project-card ${span}`}
+>
+  <div class="project-card__media">
+    {hasCover ? (
+      <img src={coverUrl} alt={data.title} loading="lazy" />
+    ) : (
+      <MediaPlaceholder label={data.title} note="COVER · 待替换" />
+    )}
+  </div>
+
+  <div class="project-card__body">
+    <div class="project-card__meta">
+      <span class="badge badge--navy">{levelInfo.zh}</span>
+      <span>{data.period}</span>
+      {data.status === 'award' && <span class="badge badge--accent">获奖/获证</span>}
+    </div>
+
+    <h3>{data.title}</h3>
+    {showSummary && <p>{data.summary}</p>}
+
+    <div class="project-card__foot">
+      <span>{data.role}</span>
+      <span class="tag-list">
+        {data.tags?.slice(0, 3).map((t) => <span class="badge">{t}</span>)}
+      </span>
+    </div>
+  </div>
+</a>

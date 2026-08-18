@@ -1,0 +1,2 @@
+# 无 www 前缀统一（部署时按你的域名调整）
+# www.example.com/*  https://example.com/:splat  301
