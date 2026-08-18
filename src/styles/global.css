@@ -523,6 +523,14 @@ code, pre {
   padding-bottom: 0.4rem;
   border-bottom: 1px solid var(--line);
 }
+.video-note {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--ink-2);
+  margin: 0.6rem 0 0;
+  max-width: 68ch;
+}
+.video-note p + p { margin-top: 0.4rem; }
 .video-ph { aspect-ratio: 16 / 9; }
 .video-ph span { font-size: 0.75rem; text-align: center; padding: 0 1rem; max-width: 46ch; }
 

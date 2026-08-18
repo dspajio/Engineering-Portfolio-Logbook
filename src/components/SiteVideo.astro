@@ -15,8 +15,9 @@ interface Props {
   page?: number;         // bilibili 分P（可选）
   caption?: string;
   cover?: string;        // 视频封面图（可选）
+  note?: string;         // 视频下方的说明段落（可选，多行介绍用)
 }
-const { type, src, bvid, page = 1, caption, cover } = Astro.props;
+const { type, src, bvid, page = 1, caption, cover, note } = Astro.props;
 
 // B 站官方嵌入 URL 格式：//player.bilibili.com/player.html?bvid=BV…&page=1&high_quality=1
 const biliSrc = bvid
@@ -38,6 +39,7 @@ const biliSrc = bvid
       title={caption ?? 'B 站演示视频'}
     ></iframe>
     {caption && <div class="video-caption">{caption}</div>}
+    {note && <p class="video-note">{note}</p>}
   </div>
 ) : type === 'file' && src ? (
   <div class="video-box">
@@ -47,6 +49,7 @@ const biliSrc = bvid
       你的浏览器不支持 HTML5 视频，请升级浏览器或<a href={src}>点此下载/另开</a>。
     </video>
     {caption && <div class="video-caption">{caption}</div>}
+    {note && <p class="video-note">{note}</p>}
   </div>
 ) : (
   <div class="media-ph video-ph" role="img" aria-label="视频占位">

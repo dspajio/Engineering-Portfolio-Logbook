@@ -65,6 +65,7 @@ const projects = defineCollection({
           page: z.number().optional(),
           caption: z.string().optional(),
           cover: z.string().optional(),      // 视频封面（可选，建议）
+          note: z.string().optional(),       // 视频下方的说明段落（可选）
         })
       )
       .default([]),

@@ -120,6 +120,7 @@ const pendingCover = !data.cover;
                 page={v.page}
                 caption={v.caption}
                 cover={v.cover}
+                note={v.note}
               />
             ))}
           </div>
@@ -127,17 +128,19 @@ const pendingCover = !data.cover;
       )
     }
 
-    <!-- 素材待补充清单（代码级提示 + 用户可见标记） -->
-    <aside style="max-width:760px;margin:0 auto" class="mt-4">
-      <div style="border:1px dashed var(--accent);background:var(--accent-soft);border-radius:var(--rad);padding:1rem 1.2rem;font-size:0.88rem;color:var(--ink-2)">
-        <strong style="color:var(--accent)">素材待补充清单</strong>
-        <div style="margin-top:0.4rem">
-          当前为占位状态。请将真实工程图片放到 <code>public/img/projects/{project.id.replace(/\.md$/, '')}/</code> 目录，
-          然后在 <code>src/content/projects/{project.id}</code> 的 frontmatter 里填写 <code>cover</code> 与 <code>gallery</code> 路径，
-          本占位框即会自动消失。
+    <!-- 素材待补充清单：仅在项目尚无任何素材时显示（cover / gallery / videos 全空才提示） -->
+    {!data.cover && data.gallery.length === 0 && data.videos.length === 0 && (
+      <aside style="max-width:760px;margin:0 auto" class="mt-4">
+        <div style="border:1px dashed var(--accent);background:var(--accent-soft);border-radius:var(--rad);padding:1rem 1.2rem;font-size:0.88rem;color:var(--ink-2)">
+          <strong style="color:var(--accent)">素材待补充清单</strong>
+          <div style="margin-top:0.4rem">
+            当前为占位状态。请将真实工程图片放到 <code>public/img/projects/{project.id.replace(/\.md$/, '')}/</code> 目录，
+            然后在 <code>src/content/projects/{project.id}</code> 的 frontmatter 里填写 <code>cover</code> 与 <code>gallery</code> 路径，
+            本占位框即会自动消失。
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    )}
 
     <!-- 导航 -->
     <nav style="display:flex;gap:1rem;max-width:760px;margin:var(--g-4) auto var(--g-5);justify-content:space-between;flex-wrap:wrap">
