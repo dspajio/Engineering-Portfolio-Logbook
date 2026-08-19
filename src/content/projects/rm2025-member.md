@@ -3,7 +3,7 @@ title: 'RoboMaster 2025 机甲大师高校联盟赛'
 titleEn: 'RoboMaster 2025 University League'
 level: 'project'
 category: 'Robotics'
-featured: false
+featured: true
 status: 'award'
 date: '2024-10-01'
 period: '2024.10 – 2025.03'

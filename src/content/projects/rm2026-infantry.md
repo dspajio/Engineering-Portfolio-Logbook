@@ -76,3 +76,11 @@ tags:
 - 一次"一个人同时当机械设计、嵌入式开发和系统联调"的多线程赛季；
 - 明确意识到 **复用既有框架、增量改进** 的价值，以及文档对环境传承的重要性；
 - 视觉 / 下位机的两层通信解算是这次最需要系统思维的部分。
+
+## 代码仓库
+
+赛季三台机器人的电控代码（基于队伍基础框架）：
+
+- **步兵**：[basic_framework_LIF](https://github.com/TUT-TeamNirvana/basic_framework_LIF.git)
+- **英雄**：[Nirvana26Hero](https://github.com/TUT-TeamNirvana/Nirvana26Hero.git)
+- **哨兵**：[Nirvana26Sentry](https://github.com/TUT-TeamNirvana/Nirvana26Sentry.git)
